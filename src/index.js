@@ -31,6 +31,14 @@ unfoldAllButton.addEventListener("click", () => {
     graph.findAllByState("node", "folded").forEach((node) => toggleItemState(node, "folded"));
 });
 
+const debouncedOnFilterInput = debounce((e) => {
+    const node = graph.find("node", (node) => node.getModel().label === e.target.value);
+    graph.focusItem(node, true, { easing: "easeCubic", duration: 500 });
+}, 600);
+
+const filterInput = document.getElementById("filter-input");
+filterInput.addEventListener("input", debouncedOnFilterInput);
+
 const scaleInput = document.getElementById("scale-input");
 scaleInput.step = 10e-10;
 scaleInput.min = graph.cfg.minZoom;

@@ -1,10 +1,42 @@
+:root {
+    --box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+    --primary-color: #c5d8ff;
+    --secondary-color: #5f95ff;
+}
+
+body {
+    margin: 0;
+}
+
+.toolbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    margin: 1rem;
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    padding: 1rem;
+
+    background-color: white;
+
+    border-radius: 1rem;
+
+    box-shadow: var(--box-shadow);
+}
+
 .button {
     padding: 1rem;
 
-    background-color: #c5d8ff;
+    background-color: var(--primary-color);
 
     border: none;
     border-radius: 1rem;
+
+    box-shadow: var(--box-shadow);
 
     cursor: pointer;
 
@@ -12,5 +44,30 @@
 }
 
 .button:hover {
-    background-color: #5f95ff;
+    background-color: var(--secondary-color);
+}
+
+.button:active {
+    background-color: var(--primary-color);
+}
+
+.button:focus-visible {
+    outline: none;
+    background-color: var(--secondary-color);
+}
+
+.filter {
+    padding: 1rem;
+
+    border: 1px solid var(--primary-color);
+    border-radius: 1rem;
+
+    box-shadow: (--box-shadow);
+
+    transition: 0.25s border;
+}
+
+.filter:focus-visible {
+    outline: none;
+    border: 1px solid var(--secondary-color);
 }
