@@ -23,21 +23,29 @@ graph.on("node:click", (e) => {
 
 // graph.on("node:dragend", (e) => saveToLocalStorate(graph.write()));
 
-const rangeInput = document.getElementById("scale");
-rangeInput.step = 10e-10;
-rangeInput.min = graph.cfg.minZoom;
-rangeInput.max = graph.cfg.maxZoom;
-rangeInput.value = graph.getZoom();
+const unfoldAllButton = document.getElementById("unfold-all-button");
+unfoldAllButton.addEventListener("click", () => {
+    graph.findAll("node", (node) => !node.isVisible()).forEach((node) => node.changeVisibility(true));
+    graph.findAll("edge", (edge) => !edge.isVisible()).forEach((edge) => edge.changeVisibility(true));
 
-rangeInput.addEventListener("input", (e) => {
+    graph.findAllByState("node", "folded").forEach((node) => toggleItemState(node, "folded"));
+});
+
+const scaleInput = document.getElementById("scale-input");
+scaleInput.step = 10e-10;
+scaleInput.min = graph.cfg.minZoom;
+scaleInput.max = graph.cfg.maxZoom;
+scaleInput.value = graph.getZoom();
+
+scaleInput.addEventListener("input", (e) => {
     const width = window.innerWidth;
     const height = window.innerHeight;
 
     graph.zoomTo(e.target.value, { x: width / 2, y: height / 2 });
 });
 
-graph.on("wheelzoom", (e) => {
-    rangeInput.value = graph.getZoom();
+graph.on("wheelzoom", () => {
+    scaleInput.value = graph.getZoom();
 });
 
 graph.render();
