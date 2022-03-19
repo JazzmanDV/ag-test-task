@@ -1,6 +1,7 @@
 const path = require("path");
 
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const config = {
     entry: "./src/index.js",
@@ -16,9 +17,13 @@ const config = {
                 use: "babel-loader",
                 exclude: /node_modules/,
             },
+            {
+                test: /\.css$/,
+                use: [MiniCssExtractPlugin.loader, "css-loader"],
+            },
         ],
     },
-    plugins: [new HtmlWebpackPlugin({ template: "./src/index.html" })],
+    plugins: [new HtmlWebpackPlugin({ template: "./src/index.html" }), new MiniCssExtractPlugin()],
     optimization: {
         runtimeChunk: "single",
         splitChunks: {

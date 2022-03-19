@@ -9,6 +9,8 @@ const graph = new G6.Graph({
     container: "mountNode",
     width,
     height,
+    minZoom: 0.5,
+    maxZoom: 3,
     layout: {
         type: "dagre",
         nodesep: 10,
