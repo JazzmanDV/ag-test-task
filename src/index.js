@@ -70,7 +70,26 @@ const graph = new G6.Graph({
 
 graph.data(data);
 graph.render();
-// graph.fitCenter();
+
+function changeItemVisibility(item) {
+    item.changeVisibility(!item.isVisible());
+}
+
+function changeBranchVisibility(edge) {
+    let target = edge.getTarget();
+
+    changeItemVisibility(edge);
+    changeItemVisibility(target);
+
+    target.getOutEdges().forEach((edge) => changeBranchVisibility(edge));
+}
+
+graph.on("node:click", (e) => {
+    const node = e.item;
+    node.getOutEdges().forEach((edge) => changeBranchVisibility(edge));
+});
+
+// graph.on("node:dragend", (e) => saveToLocalStorate(graph.write()));
 
 if (typeof window !== "undefined") {
     window.onresize = () => {
