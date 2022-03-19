@@ -64,20 +64,6 @@ const graph = new G6.Graph({
                 type: "zoom-canvas",
                 enableOptimize: true,
             },
-            {
-                type: "collapse-expand",
-                trigger: "click",
-                onChange(item, collapsed) {
-                    const data = item.get("model").data;
-                    data.collapsed = collapsed;
-                    return true;
-                },
-                shouldBegin: (e) => {
-                    // Nothing happens when the current item has id 'node1'
-                    if (e.item && e.item.getModel().id === "node1") return false;
-                    return true;
-                },
-            },
         ],
     },
 });
