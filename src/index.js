@@ -1,6 +1,6 @@
-import graph from "./graph.js";
-import data from "./mockData.js";
-import { toggleItemState, changeBranchVisibility } from "./utils.js";
+import graph from "./js/graph.js";
+import data from "./js/mockData.js";
+import { toggleItemState, changeBranchVisibility } from "./js/utils.js";
 
 graph.data(data);
 
