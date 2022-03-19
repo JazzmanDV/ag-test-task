@@ -41,7 +41,7 @@ const graph = new G6.Graph({
         },
     },
     nodeStateStyles: {
-        collapsed: {
+        folded: {
             fill: "#5F95FF",
         },
     },

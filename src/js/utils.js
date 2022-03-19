@@ -10,8 +10,8 @@ function changeItemVisibility(item, visibility) {
 export function changeBranchVisibility(edge, visibility) {
     let target = edge.getTarget();
 
-    if (target.hasState("collapsed") && visibility) {
-        toggleItemState(target, "collapsed");
+    if (target.hasState("folded") && visibility) {
+        toggleItemState(target, "folded");
     }
 
     changeItemVisibility(edge, visibility);

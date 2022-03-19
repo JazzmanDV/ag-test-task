@@ -16,7 +16,7 @@ graph.on("node:click", (e) => {
         return;
     }
 
-    toggleItemState(node, "collapsed");
+    toggleItemState(node, "folded");
 
     outEdges.forEach((edge) => changeBranchVisibility(edge, !edge.isVisible()));
 });
