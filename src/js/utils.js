@@ -8,14 +8,19 @@ function changeItemVisibility(item, visibility) {
 }
 
 export function changeBranchVisibility(edge, visibility) {
-    let target = edge.getTarget();
+    const target = edge.getTarget();
 
-    if (target.hasState("folded") && visibility) {
+    // Если мы рекурсивно прячем ветки, при этом у нас ранее эта ветка уже была спрятана, то обнуляем состояние корневого узла этой свернутой ветки за ненадобностью
+    if (target.hasState("folded") && !visibility) {
         toggleItemState(target, "folded");
     }
 
-    changeItemVisibility(edge, visibility);
+    // Прячем дочерний узел
     changeItemVisibility(target, visibility);
 
+    // Прячем все входящие в дочерний узел дуги
+    target.getInEdges().forEach((edge) => changeItemVisibility(edge, visibility));
+
+    // Рекурсивно прячем все исходящие из дочернего узла ветки
     target.getOutEdges().forEach((edge) => changeBranchVisibility(edge, visibility));
 }

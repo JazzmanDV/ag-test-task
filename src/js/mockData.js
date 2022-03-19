@@ -37,6 +37,7 @@ const data = {
         { source: "node3", target: "node15", label: "3-15" },
         { source: "node3", target: "node16", label: "3-16" },
         { source: "node9", target: "node17", label: "9-17" },
+        { source: "node9", target: "node10", label: "9-10" },
     ],
 };
 

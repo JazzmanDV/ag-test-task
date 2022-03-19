@@ -18,7 +18,8 @@ graph.on("node:click", (e) => {
 
     toggleItemState(node, "folded");
 
-    outEdges.forEach((edge) => changeBranchVisibility(edge, !edge.isVisible()));
+    const visibility = !node.hasState("folded");
+    outEdges.forEach((edge) => changeBranchVisibility(edge, visibility));
 });
 
 // graph.on("node:dragend", (e) => saveToLocalStorate(graph.write()));
