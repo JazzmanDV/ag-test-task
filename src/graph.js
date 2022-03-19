@@ -27,6 +27,22 @@ const graph = new G6.Graph({
             },
         ],
     },
+    defaultNode: {
+        size: 50,
+        style: {
+            cursor: "pointer",
+        },
+    },
+    defaultEdge: {
+        style: {
+            stroke: "#C5D8FF",
+        },
+    },
+    nodeStateStyles: {
+        collapsed: {
+            fill: "#5F95FF",
+        },
+    },
 });
 
 if (typeof window !== "undefined") {

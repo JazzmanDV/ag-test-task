@@ -3,10 +3,6 @@ export function toggleItemState(item, state) {
     return item.hasState(state);
 }
 
-export function setItemLabel(item, label) {
-    item.update({ label });
-}
-
 function changeItemVisibility(item, visibility) {
     item.changeVisibility(visibility);
 }
@@ -16,7 +12,6 @@ export function changeBranchVisibility(edge, visibility) {
 
     if (target.hasState("collapsed") && visibility) {
         toggleItemState(target, "collapsed");
-        setItemLabel(target, target.getModel().label.split(" (collapsed)")[0]);
     }
 
     changeItemVisibility(edge, visibility);
