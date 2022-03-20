@@ -2,7 +2,7 @@ import graph from "./graph.js";
 
 import { toggleItemState } from "./utils.js";
 
-export default function prepareUnfoldButton() {
+export default function prepareUnfoldAllButton() {
     const unfoldAllButton = document.getElementById("unfold-all-button");
     unfoldAllButton.addEventListener("click", () => {
         graph.findAll("node", (node) => !node.isVisible()).forEach((node) => node.changeVisibility(true));

@@ -1,14 +1,14 @@
 import "./index.css";
 
 import graph from "./js/graph.js";
-import prepareUnfoldButton from "./js/prepareUnfoldButton.js";
+import prepareUnfoldAllButton from "./js/prepareUnfoldAllButton.js";
 import prepareFilterInput from "./js/prepareFilterInput.js";
 import prepareScaleInput from "./js/prepareScaleInput.js";
 import prepareResetButton from "./js/prepareResetButton.js";
 
 // ------COMMON EVENTS INIT------
 
-prepareUnfoldButton();
+prepareUnfoldAllButton();
 prepareFilterInput();
 prepareScaleInput();
 prepareResetButton();
