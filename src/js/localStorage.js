@@ -17,3 +17,7 @@ export function loadFromLocalStorage(key) {
         return undefined;
     }
 }
+
+export function removeFromLocalStorage(key) {
+    localStorage.removeItem(key);
+}
