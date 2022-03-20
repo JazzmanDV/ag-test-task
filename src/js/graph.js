@@ -1,9 +1,30 @@
 import G6 from "@antv/g6";
 
+import mockData from "./mockData.js";
+import { toggleItemState, changeBranchVisibility } from "./utils.js";
+import { saveToLocalStorage, loadFromLocalStorage } from "./localStorage.js";
+
+// ------GRAPH INIT------
+
 const container = document.getElementById("mountNode");
 
 const width = window.innerWidth;
 const height = window.innerHeight;
+
+let graphData = loadFromLocalStorage("graph-data");
+// layout не определен, так как мы сохраняем позиции узлов в localStorage (если это не первый запуск)
+let layout = null;
+
+// Если не нашли сохраненных данных в localStorage,
+// то используем mockData и доверяем изначальное позиционирование узлов Dagre layout
+if (!graphData) {
+    graphData = mockData;
+    layout = {
+        type: "dagre",
+        nodesep: 10,
+        ranksep: 30,
+    };
+}
 
 const graph = new G6.Graph({
     container: "mountNode",
@@ -12,11 +33,7 @@ const graph = new G6.Graph({
     fitCenter: true,
     minZoom: 0.5,
     maxZoom: 3,
-    layout: {
-        type: "dagre",
-        nodesep: 10,
-        ranksep: 30,
-    },
+    layout: layout,
     modes: {
         default: [
             "drag-node",
@@ -48,12 +65,33 @@ const graph = new G6.Graph({
     },
 });
 
-if (typeof window !== "undefined") {
-    window.onresize = () => {
-        if (!graph || graph.get("destroyed")) return;
-        if (!container || !container.scrollWidth || !container.scrollHeight) return;
-        graph.changeSize(container.scrollWidth, container.scrollHeight);
-    };
-}
+graph.read(graphData);
+graph.fitCenter();
+
+// ------GRAPH EVENTS INIT------
+
+graph.on("node:click", (e) => {
+    const node = e.item;
+
+    const outEdges = node.getOutEdges();
+    if (!outEdges.length) {
+        return;
+    }
+
+    toggleItemState(node, "folded");
+
+    const visibility = !node.hasState("folded");
+    outEdges.forEach((edge) => changeBranchVisibility(edge, visibility));
+});
+
+graph.on("node:dragend", (e) => {
+    saveToLocalStorage("graph-data", graph.save());
+    console.log(e.item.getModel().x, e.item.getModel().y);
+});
+
+const scaleInput = document.getElementById("scale-input");
+graph.on("wheelzoom", () => {
+    scaleInput.value = graph.getZoom();
+});
 
 export default graph;
