@@ -6,8 +6,7 @@ import { removeFromLocalStorage } from "./localStorage.js";
 export default function prepareResetButton() {
     const scaleInput = document.getElementById("scale-input");
 
-    const resetButton = document.getElementById("reset-button");
-    resetButton.addEventListener("click", () => {
+    document.getElementById("reset-button").addEventListener("click", () => {
         graph.updateLayout({
             type: "dagre",
             nodesep: 10,

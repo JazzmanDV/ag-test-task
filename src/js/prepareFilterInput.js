@@ -8,6 +8,5 @@ export default function prepareFilterInput() {
         graph.focusItem(node, true, { easing: "easeCubic", duration: 500 });
     }, 600);
 
-    const filterInput = document.getElementById("filter-input");
-    filterInput.addEventListener("input", debouncedOnFilterInput);
+    document.getElementById("filter-input").addEventListener("input", debouncedOnFilterInput);
 }

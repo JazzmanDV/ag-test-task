@@ -2,12 +2,18 @@ import graph from "./graph.js";
 
 import { toggleItemState } from "./utils.js";
 
-export default function prepareUnfoldAllButton() {
-    const unfoldAllButton = document.getElementById("unfold-all-button");
-    unfoldAllButton.addEventListener("click", () => {
-        graph.findAll("node", (node) => !node.isVisible()).forEach((node) => node.changeVisibility(true));
-        graph.findAll("edge", (edge) => !edge.isVisible()).forEach((edge) => edge.changeVisibility(true));
+function showItems(items) {
+    items.forEach((item) => item.changeVisibility(true));
+}
 
+function findHiddenItems(itemType) {
+    return graph.findAll(itemType, (item) => !item.isVisible());
+}
+
+export default function prepareUnfoldAllButton() {
+    document.getElementById("unfold-all-button").addEventListener("click", () => {
+        showItems(findHiddenItems("node"));
+        showItems(findHiddenItems("edge"));
         graph.findAllByState("node", "folded").forEach((node) => toggleItemState(node, "folded"));
     });
 }

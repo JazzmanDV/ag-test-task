@@ -6,8 +6,6 @@ import { saveToLocalStorage, loadFromLocalStorage } from "./localStorage.js";
 
 // ------GRAPH INIT------
 
-const mountNode = document.getElementById("mountNode");
-
 const width = window.innerWidth;
 const height = window.innerHeight;
 
@@ -75,6 +73,7 @@ graph.on("node:click", (e) => {
     const node = e.item;
 
     const outEdges = node.getOutEdges();
+    // Если нет исходящих дуг, то и сворачивать нечего
     if (!outEdges.length) {
         return;
     }
@@ -90,6 +89,7 @@ graph.on("node:dragend", (e) => {
 });
 
 const scaleInput = document.getElementById("scale-input");
+
 graph.on("wheelzoom", () => {
     scaleInput.value = graph.getZoom();
 });
