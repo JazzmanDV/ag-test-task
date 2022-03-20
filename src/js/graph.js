@@ -6,7 +6,7 @@ import { saveToLocalStorage, loadFromLocalStorage } from "./localStorage.js";
 
 // ------GRAPH INIT------
 
-const container = document.getElementById("mountNode");
+const mountNode = document.getElementById("mountNode");
 
 const width = window.innerWidth;
 const height = window.innerHeight;

@@ -11,10 +11,11 @@ prepareUnfoldButton();
 prepareFilterInput();
 prepareScaleInput();
 
+const mountNode = document.getElementById("mountNode");
 if (typeof window !== "undefined") {
     window.onresize = () => {
         if (!graph || graph.get("destroyed")) return;
-        if (!container || !container.scrollWidth || !container.scrollHeight) return;
-        graph.changeSize(container.scrollWidth, container.scrollHeight);
+        if (!mountNode || !mountNode.scrollWidth || !mountNode.scrollHeight) return;
+        graph.changeSize(mountNode.scrollWidth, mountNode.scrollHeight);
     };
 }
