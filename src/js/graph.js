@@ -56,6 +56,7 @@ const graph = new G6.Graph({
     defaultEdge: {
         style: {
             stroke: "#C5D8FF",
+            endArrow: true,
         },
     },
     nodeStateStyles: {
