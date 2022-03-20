@@ -62,7 +62,7 @@ body {
     border: 1px solid var(--primary-color);
     border-radius: 1rem;
 
-    box-shadow: (--box-shadow);
+    box-shadow: var(--box-shadow);
 
     transition: 0.25s border;
 }
