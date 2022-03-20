@@ -1,7 +1,7 @@
 import G6 from "@antv/g6";
 
 import mockData from "./mockData.js";
-import { toggleItemState, changeBranchVisibility } from "./utils.js";
+import { toggleItemState, changeItemVisibility, changeBranchVisibility } from "./utils.js";
 import { saveToLocalStorage, loadFromLocalStorage } from "./localStorage.js";
 
 // ------GRAPH INIT------
@@ -81,7 +81,13 @@ graph.on("node:click", (e) => {
     toggleItemState(node, "folded");
 
     const visibility = !node.hasState("folded");
-    outEdges.forEach((edge) => changeBranchVisibility(edge, visibility));
+    outEdges
+        .filter((edge) => edge.getSource() !== edge.getTarget())
+        .forEach((edge) => changeBranchVisibility(edge, visibility));
+
+    outEdges
+        .filter((edge) => edge.getSource() === edge.getTarget())
+        .forEach((edge) => changeItemVisibility(edge, visibility));
 });
 
 graph.on("node:dragend", (e) => {

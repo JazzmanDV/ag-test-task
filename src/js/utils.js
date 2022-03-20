@@ -3,7 +3,7 @@ export function toggleItemState(item, state) {
     return item.hasState(state);
 }
 
-function changeItemVisibility(item, visibility) {
+export function changeItemVisibility(item, visibility) {
     item.changeVisibility(visibility);
 }
 
@@ -22,5 +22,8 @@ export function changeBranchVisibility(edge, visibility) {
     target.getInEdges().forEach((edge) => changeItemVisibility(edge, visibility));
 
     // Рекурсивно прячем все исходящие из дочернего узла ветки
-    target.getOutEdges().forEach((edge) => changeBranchVisibility(edge, visibility));
+    target
+        .getOutEdges()
+        .filter((edge) => edge.getSource() !== edge.getTarget())
+        .forEach((edge) => changeBranchVisibility(edge, visibility));
 }
