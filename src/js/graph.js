@@ -87,7 +87,6 @@ graph.on("node:click", (e) => {
 
 graph.on("node:dragend", (e) => {
     saveToLocalStorage("graph-data", graph.save());
-    console.log(e.item.getModel().x, e.item.getModel().y);
 });
 
 const scaleInput = document.getElementById("scale-input");
