@@ -1,3 +1,11 @@
+*,
+*:before,
+*:after {
+    font-family: "Exo 2", sans-serif;
+    font-weight: 300;
+    box-sizing: border-box;
+}
+
 :root {
     --box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
     --primary-color: #c5d8ff;
@@ -8,17 +16,21 @@ body {
     margin: 0;
 }
 
+input,
+button {
+    font: inherit;
+}
+
 .toolbar {
     position: fixed;
     top: 0;
     left: 0;
 
-    margin: 1rem;
-
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
 
+    margin: 1rem;
     padding: 1rem;
 
     background-color: white;
