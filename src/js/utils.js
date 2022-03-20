@@ -1,29 +1,20 @@
-export function toggleItemState(item, state) {
-    item.setState(state, !item.hasState(state));
-    return item.hasState(state);
-}
-
 export function changeItemVisibility(item, visibility) {
     item.changeVisibility(visibility);
 }
 
-export function changeBranchVisibility(edge, visibility) {
+export function checkBranch(edge, visitedEdges = new Set(), visitedNodes = new Set()) {
     const target = edge.getTarget();
 
-    // Если мы рекурсивно прячем ветки, при этом у нас ранее эта ветка уже была спрятана, то обнуляем состояние корневого узла этой свернутой ветки за ненадобностью
-    if (target.hasState("folded") && !visibility) {
-        toggleItemState(target, "folded");
-    }
+    visitedEdges.add(edge);
+    visitedNodes.add(target);
 
-    // Прячем дочерний узел
-    changeItemVisibility(target, visibility);
+    target.getOutEdges().forEach((edge) => {
+        if (visitedNodes.has(edge.getTarget())) {
+            visitedEdges.add(edge);
+        } else {
+            checkBranch(edge, visitedEdges, visitedNodes);
+        }
+    });
 
-    // Прячем все входящие в дочерний узел дуги
-    target.getInEdges().forEach((edge) => changeItemVisibility(edge, visibility));
-
-    // Рекурсивно прячем все исходящие из дочернего узла ветки
-    target
-        .getOutEdges()
-        .filter((edge) => edge.getSource() !== edge.getTarget())
-        .forEach((edge) => changeBranchVisibility(edge, visibility));
+    return [visitedEdges, visitedNodes];
 }

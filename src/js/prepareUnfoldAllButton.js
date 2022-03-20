@@ -1,7 +1,5 @@
 import graph from "./graph.js";
 
-import { toggleItemState } from "./utils.js";
-
 function showItems(items) {
     items.forEach((item) => item.changeVisibility(true));
 }
@@ -14,6 +12,6 @@ export default function prepareUnfoldAllButton() {
     document.getElementById("unfold-all-button").addEventListener("click", () => {
         showItems(findHiddenItems("node"));
         showItems(findHiddenItems("edge"));
-        graph.findAllByState("node", "folded").forEach((node) => toggleItemState(node, "folded"));
+        graph.findAllByState("node", "folded").forEach((node) => node.setState("folded", false));
     });
 }

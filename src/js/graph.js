@@ -1,7 +1,7 @@
 import G6 from "@antv/g6";
 
 import mockData from "./mockData.js";
-import { toggleItemState, changeItemVisibility, changeBranchVisibility } from "./utils.js";
+import { changeItemVisibility, checkBranch } from "./utils.js";
 import { saveToLocalStorage, loadFromLocalStorage } from "./localStorage.js";
 
 // ------GRAPH INIT------
@@ -71,23 +71,43 @@ graph.fitCenter();
 
 graph.on("node:click", (e) => {
     const node = e.item;
-
     const outEdges = node.getOutEdges();
-    // Если нет исходящих дуг, то и сворачивать нечего
-    if (!outEdges.length) {
-        return;
-    }
 
-    toggleItemState(node, "folded");
+    const visibility = node.hasState("folded");
 
-    const visibility = !node.hasState("folded");
-    outEdges
-        .filter((edge) => edge.getSource() !== edge.getTarget())
-        .forEach((edge) => changeBranchVisibility(edge, visibility));
+    outEdges.forEach((edge) => {
+        const [visitedEdges, visitedNodes] = checkBranch(edge);
 
-    outEdges
-        .filter((edge) => edge.getSource() === edge.getTarget())
-        .forEach((edge) => changeItemVisibility(edge, visibility));
+        // Если в посещенных items есть наш исходный узел, то это цикл, и сворачивать ветку не нужно
+        if (visitedNodes.has(node)) {
+            return;
+        }
+
+        for (const visitedNode of visitedNodes) {
+            const inEdges = visitedNode.getInEdges();
+            for (const inEdge of inEdges) {
+                if (!visitedEdges.has(inEdge)) {
+                    return;
+                }
+            }
+        }
+
+        // Сворачиваем ветку
+        const itemsForChangeVisibility = [...visitedEdges, ...visitedNodes];
+
+        itemsForChangeVisibility.forEach((item) => {
+            // При сворачивании все дочерние свернутые узлы должны сбросить свое состояние
+            if (item.hasState("folded") && !visibility) {
+                item.setState("folded", false);
+            }
+            changeItemVisibility(item, visibility);
+        });
+
+        // Если что-то было свернуто, то меняем состояние нашего исходного узла
+        if (itemsForChangeVisibility.length > 0) {
+            node.setState("folded", !visibility);
+        }
+    });
 });
 
 graph.on("node:dragend", (e) => {
