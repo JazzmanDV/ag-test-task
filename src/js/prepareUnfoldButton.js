@@ -1,5 +1,7 @@
 import graph from "./graph.js";
 
+import { toggleItemState } from "./utils.js";
+
 export default function prepareUnfoldButton() {
     const unfoldAllButton = document.getElementById("unfold-all-button");
     unfoldAllButton.addEventListener("click", () => {
