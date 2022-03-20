@@ -2,9 +2,12 @@ const path = require("path");
 
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 
-const config = {
-    devtool: "eval-cheap-source-map",
+const devtool = process.argv.mode === "development" ? "eval-cheap-source-map" : false;
+
+module.exports = {
+    devtool: devtool,
     entry: "./src/index.js",
     output: {
         filename: "[name].[contenthash].js",
@@ -26,6 +29,7 @@ const config = {
     },
     plugins: [new HtmlWebpackPlugin({ template: "./src/index.html" }), new MiniCssExtractPlugin()],
     optimization: {
+        minimizer: [new CssMinimizerPlugin(), "..."],
         runtimeChunk: "single",
         splitChunks: {
             cacheGroups: {
@@ -38,5 +42,3 @@ const config = {
         },
     },
 };
-
-module.exports = config;
