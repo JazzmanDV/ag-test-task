@@ -6,6 +6,17 @@ const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 
 const devtool = process.argv.mode === "development" ? "eval-cheap-source-map" : false;
 
+const postcssPresetEnv = require("postcss-preset-env");
+
+const postcssLoader = {
+    loader: "postcss-loader",
+    options: {
+        postcssOptions: {
+            plugins: [postcssPresetEnv()],
+        },
+    },
+};
+
 module.exports = {
     devtool: devtool,
     entry: "./src/index.js",
@@ -18,12 +29,17 @@ module.exports = {
         rules: [
             {
                 test: /\.js$/,
-                use: "babel-loader",
+                use: {
+                    loader: "babel-loader",
+                    options: {
+                        presets: ["@babel/preset-env"],
+                    },
+                },
                 exclude: /node_modules/,
             },
             {
                 test: /\.css$/,
-                use: [MiniCssExtractPlugin.loader, "css-loader"],
+                use: [MiniCssExtractPlugin.loader, "css-loader", postcssLoader],
             },
         ],
     },
