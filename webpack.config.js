@@ -4,7 +4,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 
-const devtool = process.argv.mode === "development" ? "eval-cheap-source-map" : false;
+const devtool = process.argv.mode === "development" ? "eval-source-map" : false;
 
 const postcssPresetEnv = require("postcss-preset-env");
 
