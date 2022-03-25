@@ -78,12 +78,10 @@ graph.on("node:click", (e) => {
     outEdges.forEach((edge) => {
         const [visitedEdges, visitedNodes] = checkBranch(edge);
 
-        // Если в посещенных items есть наш исходный узел, то это цикл, и сворачивать ветку не нужно
-        if (visitedNodes.has(node)) {
-            return;
-        }
-
         for (const visitedNode of visitedNodes) {
+            if (visitedNode === node) {
+                continue;
+            }
             const inEdges = visitedNode.getInEdges();
             for (const inEdge of inEdges) {
                 if (!visitedEdges.has(inEdge)) {
@@ -96,6 +94,9 @@ graph.on("node:click", (e) => {
         const itemsForChangeVisibility = [...visitedEdges, ...visitedNodes];
 
         itemsForChangeVisibility.forEach((item) => {
+            if (item === node) {
+                return;
+            }
             // При сворачивании все дочерние свернутые узлы должны сбросить свое состояние
             if (item.hasState("folded") && !visibility) {
                 item.setState("folded", false);
